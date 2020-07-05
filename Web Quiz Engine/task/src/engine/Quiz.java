@@ -1,11 +1,14 @@
 package engine;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Quiz {
     private String title;
     private String text;
-    private ArrayList<String> options = new ArrayList<>();
+    private List<String> options = new ArrayList<>();
     private int answer;
 
     public Quiz() {
@@ -40,7 +43,8 @@ public class Quiz {
         this.text = text;
     }
 
-    public ArrayList<String> getOptions() {
+    @JsonGetter
+    public List<String> getOptions() {
         return options;
     }
 

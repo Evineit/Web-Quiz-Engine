@@ -1,5 +1,7 @@
 package engine;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +30,27 @@ public class Controller {
 
     @GetMapping("/api/quizzes/{id}")
     public ResponseEntity<String> getQuizById(@PathVariable int id) {
-        Quiz quiz = quizzes.get(id - 1);
+        Quiz quiz = null;
+        try {
+            quiz = quizzes.get(id - 1);
+        } catch (Exception e) {
+            return ResponseEntity.notFound()
+                    .build();
+        }
         if (quiz != null) {
+            String result = null;
+            try {
+                result = new ObjectMapper().writeValueAsString(quiz.getOptions());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
                     .body("{\n" +
-                            "  \"id\": " + id + 1 + ",\n" +
+                            "  \"id\": " + id + ",\n" +
                             "  \"title\": \"" + quiz.getTitle() + "\",\n" +
                             "  \"text\": \"" + quiz.getText() + "\",\n" +
-                            "  \"options\": " + quiz.getOptions().toString() + "\n" +
+                            "  \"options\": " + result + "\n" +
                             "}");
         } else {
             return ResponseEntity.notFound()
@@ -49,12 +63,24 @@ public class Controller {
         String[] responseBody = new String[quizzes.size()];
         for (int i = 0; i < quizzes.size(); i++) {
             Quiz quiz = quizzes.get(i);
+            String result = null;
+            try {
+                result = new ObjectMapper().writeValueAsString(quiz.getOptions());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
             responseBody[i] = "{\n" +
                     "  \"id\": " + i + 1 + ",\n" +
                     "  \"title\": \"" + quiz.getTitle() + "\",\n" +
                     "  \"text\": \"" + quiz.getText() + "\",\n" +
-                    "  \"options\": " + quiz.getOptions().toString() + "\n" +
+                    "  \"options\": " + result + "\n" +
                     "}";
+        }
+        System.out.println(Arrays.toString(responseBody));
+        if (quizzes.isEmpty()){
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
+                    .body("[]");
         }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
@@ -78,12 +104,10 @@ public class Controller {
     @PostMapping(value = "/api/quizzes/{id}/solve")
     ResponseEntity<String> solveQuiz(@PathVariable int id, @RequestParam int answer) {
         try {
-            Quiz quiz = quizzes.get(id);
-            if (quiz.getAnswer() == answer) {
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                        .body(quiz.solveQuiz(answer));
-            }
+            Quiz quiz = quizzes.get(id-1);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
+                    .body(quiz.solveQuiz(answer));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,11 +117,17 @@ public class Controller {
 
     private String addQuiz(Quiz quiz) {
         quizzes.add(quiz);
+        String result = null;
+        try {
+            result = new ObjectMapper().writeValueAsString(quiz.getOptions());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return "{\n" +
                 "  \"id\": " + quizzes.size() + ",\n" +
                 "  \"title\": \"" + quiz.getTitle() + "\",\n" +
                 "  \"text\": \"" + quiz.getText() + "\",\n" +
-                "  \"options\": " + quiz.getOptions().toString() + "\n" +
+                "  \"options\": " + result + "\n" +
                 "}";
     }
 }
