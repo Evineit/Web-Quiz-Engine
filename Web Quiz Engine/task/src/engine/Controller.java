@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -25,22 +24,23 @@ public class Controller {
     public Controller() {
     }
 
-    @GetMapping("/api/quiz")
-    public ResponseEntity<String> getQuiz() {
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                .body("{\n" +
-                        "  \"title\": \"The Java Logo\",\n" +
-                        "  \"text\": \"What is depicted on the Java logo?\",\n" +
-                        "  \"options\": [\"Robot\",\"Tea leaf\",\"Cup of coffee\",\"Bug\"]\n" +
-                        "}\n");
-    }
+//    @GetMapping("/api/quiz")
+//    public ResponseEntity<String> getQuiz() {
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
+//                .body("{\n" +
+//                        "  \"title\": \"The Java Logo\",\n" +
+//                        "  \"text\": \"What is depicted on the Java logo?\",\n" +
+//                        "  \"options\": [\"Robot\",\"Tea leaf\",\"Cup of coffee\",\"Bug\"]\n" +
+//                        "}\n");
+//    }
 
     @GetMapping("/api/quizzes/{id}")
     public ResponseEntity<String> getQuizById(@PathVariable int id) {
         Quiz quiz = null;
         try {
-            quiz = quizzes.get(id - 1);
+            quiz = quizService.getQuizById((long) (id));
+//            quiz = quizzes.get(id - 1);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, SERVICE_WARNING_MESSAGE);
         }
@@ -68,24 +68,13 @@ public class Controller {
 
     @GetMapping("/api/quizzes")
     public ResponseEntity<String> getQuizzes() {
-        String[] responseBody = new String[quizzes.size()];
-        for (int i = 0; i < quizzes.size(); i++) {
-            Quiz quiz = quizzes.get(i);
-            String result = null;
-            try {
-                result = new ObjectMapper().writeValueAsString(quiz.getOptions());
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
-            responseBody[i] = "{\n" +
-                    "  \"id\": " + i + 1 + ",\n" +
-                    "  \"title\": \"" + quiz.getTitle() + "\",\n" +
-                    "  \"text\": \"" + quiz.getText() + "\",\n" +
-                    "  \"options\": " + result + "\n" +
-                    "}";
+        List<Quiz> quizList = quizService.getAllQuizzes();
+        String[] responseBody = new String[quizList.size()];
+        for (int i = 0; i < quizList.size(); i++) {
+            responseBody[i]= quizList.get(i).toString();
         }
         System.out.println(Arrays.toString(responseBody));
-        if (quizzes.isEmpty()){
+        if (quizList.isEmpty()){
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
                     .body("[]");
@@ -95,12 +84,12 @@ public class Controller {
                 .body(Arrays.toString(responseBody));
     }
 
-    @PostMapping(value = "/api/quiz",consumes = "application/json")
-    ResponseEntity<String> answerQuiz(@RequestBody Integer[] answer) {
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                .body(Quiz.saveAnswer(answer));
-    }
+//    @PostMapping(value = "/api/quiz",consumes = "application/json")
+//    ResponseEntity<String> answerQuiz(@RequestBody Integer[] answer) {
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
+//                .body(Quiz.saveAnswer(answer));
+//    }
 
     @PostMapping(value = "/api/quizzes", consumes = "application/json")
     ResponseEntity<String> newQuiz(@RequestBody Quiz quiz) {
@@ -124,7 +113,7 @@ public class Controller {
     @PostMapping(value = "/api/quizzes/{id}/solve",consumes = "application/json")
     ResponseEntity<String> solveQuiz(@PathVariable int id, @RequestBody Quiz answer) {
         try {
-            Quiz quiz = quizzes.get(id-1);
+            Quiz quiz = quizService.getQuizById((long) (id));
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
                     .body(quiz.solveQuiz(answer.getAnswer()));
@@ -136,18 +125,20 @@ public class Controller {
     }
 
     private String addQuiz(Quiz quiz) {
-        quizzes.add(quiz);
-        String result = null;
-        try {
-            result = new ObjectMapper().writeValueAsString(quiz.getOptions());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return "{\n" +
-                "  \"id\": " + quizzes.size() + ",\n" +
-                "  \"title\": \"" + quiz.getTitle() + "\",\n" +
-                "  \"text\": \"" + quiz.getText() + "\",\n" +
-                "  \"options\": " + result + "\n" +
-                "}";
+        Quiz savedQuiz = quizService.saveQuiz(quiz);
+//        quizzes.add(quiz);
+//        String result = null;
+//        try {
+//            result = new ObjectMapper().writeValueAsString(savedQuiz.getOptions());
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+        return savedQuiz.toString();
+//        return "{\n" +
+//                "  \"id\": " + savedQuiz.getId() + ",\n" +
+//                "  \"title\": \"" + savedQuiz.getTitle() + "\",\n" +
+//                "  \"text\": \"" + savedQuiz.getText() + "\",\n" +
+//                "  \"options\": " + result + "\n" +
+//                "}";
     }
 }

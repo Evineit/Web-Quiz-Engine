@@ -1,6 +1,8 @@
 package engine;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.List;
 @Entity
 public class Quiz {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -69,6 +71,14 @@ public class Quiz {
         this.answer = answer;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String solveQuiz(List<String> answer) {
         if (this.answer==null && answer==null){
             return "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
@@ -90,5 +100,21 @@ public class Quiz {
         } else {
             return "{\"success\":false,\"feedback\":\"Wrong answer! Please, try again.\"}\n";
         }
+    }
+
+    @Override
+    public String toString() {
+        String result = null;
+        try {
+            result = new ObjectMapper().writeValueAsString(getOptions());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "{\n" +
+                "  \"id\": " + id + ",\n" +
+                "  \"title\": \"" + getTitle() + "\",\n" +
+                "  \"text\": \"" + getText() + "\",\n" +
+                "  \"options\": " + result + "\n" +
+                "}";
     }
 }

@@ -7,7 +7,7 @@ public interface QuizService {
      * Get All Planets.
      * @return List of all planets.
      */
-    List<Quiz> getAllQuizs();
+    List<Quiz> getAllQuizzes();
     /**
      * Get Quiz By Id.
      * @param id Id

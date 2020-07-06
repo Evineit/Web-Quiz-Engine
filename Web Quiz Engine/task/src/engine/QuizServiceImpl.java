@@ -12,7 +12,7 @@ public class QuizServiceImpl implements QuizService{
     private QuizRepository quizRepository;
 
     @Override
-    public List<Quiz> getAllQuizs() {
+    public List<Quiz> getAllQuizzes() {
         return (List<Quiz>) quizRepository.findAll();
     }
 
