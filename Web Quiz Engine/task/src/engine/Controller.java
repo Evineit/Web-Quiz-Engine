@@ -16,8 +16,7 @@ import java.util.List;
 
 @RestController
 public class Controller {
-    private static final String SERVICE_WARNING_MESSAGE = "Berlin Schönefeld is closed for service today";
-    private ArrayList<Quiz> quizzes = new ArrayList<>();
+    private static final String SERVICE_WARNING_MESSAGE = "An error has occurred";
 
     @Autowired
     private QuizService quizService;
@@ -40,26 +39,14 @@ public class Controller {
         Quiz quiz = null;
         try {
             quiz = quizService.getQuizById((long) (id));
-//            quiz = quizzes.get(id - 1);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, SERVICE_WARNING_MESSAGE);
         }
 
         if (quiz != null) {
-            String optionsList = null;
-            try {
-                optionsList = new ObjectMapper().writeValueAsString(quiz.getOptions());
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                    .body("{\n" +
-                            "  \"id\": " + id + ",\n" +
-                            "  \"title\": \"" + quiz.getTitle() + "\",\n" +
-                            "  \"text\": \"" + quiz.getText() + "\",\n" +
-                            "  \"options\": " + optionsList + "\n" +
-                            "}");
+                    .body(quiz.toString());
         } else {
             return ResponseEntity.notFound()
                     .build();
@@ -126,19 +113,6 @@ public class Controller {
 
     private String addQuiz(Quiz quiz) {
         Quiz savedQuiz = quizService.saveQuiz(quiz);
-//        quizzes.add(quiz);
-//        String result = null;
-//        try {
-//            result = new ObjectMapper().writeValueAsString(savedQuiz.getOptions());
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
         return savedQuiz.toString();
-//        return "{\n" +
-//                "  \"id\": " + savedQuiz.getId() + ",\n" +
-//                "  \"title\": \"" + savedQuiz.getTitle() + "\",\n" +
-//                "  \"text\": \"" + savedQuiz.getText() + "\",\n" +
-//                "  \"options\": " + result + "\n" +
-//                "}";
     }
 }

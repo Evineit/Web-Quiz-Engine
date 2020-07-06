@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface QuizService {
     /**
-     * Get All Planets.
+     * Get All Quizzes.
      * @return List of all planets.
      */
     List<Quiz> getAllQuizzes();
