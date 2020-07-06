@@ -9,20 +9,20 @@
 ( =========|_|==============|___/=/_/_/_/
 * :: Spring Boot ::        (v2.2.2.RELEASE)
 
-˘2020-07-05 18:18:40.551  INFO 228 --- [    Test worker] engine.WebQuizEngine                     : Starting WebQuizEngine on DESKTOP-4K625VM with PID 228 (started by kevin in C:\Users\kevin\Google Drive\proyectos\WebQuizEngine\Web Quiz Engine\task)
-§2020-07-05 18:18:40.569  INFO 228 --- [    Test worker] engine.WebQuizEngine                     : No active profile set, falling back to default profiles: default
-ê2020-07-05 18:18:44.559  INFO 228 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8889 (http)
-}2020-07-05 18:18:44.582  INFO 228 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-ì2020-07-05 18:18:44.582  INFO 228 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.29]
-ñ2020-07-05 18:18:44.814  INFO 228 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-£2020-07-05 18:18:44.815  INFO 228 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4075 ms
-ö2020-07-05 18:18:45.908  INFO 228 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-ô2020-07-05 18:18:46.593  INFO 228 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
-ü2020-07-05 18:18:46.751  INFO 228 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8889 (http) with context path ''
-°2020-07-05 18:18:46.764  INFO 228 --- [    Test worker] engine.WebQuizEngine                     : Started WebQuizEngine in 7.49 seconds (JVM running for 9.449)
-ù2020-07-05 18:18:47.503  INFO 228 --- [nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-å2020-07-05 18:18:47.505  INFO 228 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-Ö2020-07-05 18:18:47.519  INFO 228 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 14 ms
+˚2020-07-05 20:05:08.247  INFO 5912 --- [    Test worker] engine.WebQuizEngine                     : Starting WebQuizEngine on DESKTOP-4K625VM with PID 5912 (started by kevin in C:\Users\kevin\Google Drive\proyectos\WebQuizEngine\Web Quiz Engine\task)
+•2020-07-05 20:05:08.265  INFO 5912 --- [    Test worker] engine.WebQuizEngine                     : No active profile set, falling back to default profiles: default
+ë2020-07-05 20:05:11.881  INFO 5912 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8889 (http)
+~2020-07-05 20:05:11.912  INFO 5912 --- [    Test worker] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+î2020-07-05 20:05:11.913  INFO 5912 --- [    Test worker] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.29]
+ó2020-07-05 20:05:12.172  INFO 5912 --- [    Test worker] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+§2020-07-05 20:05:12.173  INFO 5912 --- [    Test worker] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3739 ms
+õ2020-07-05 20:05:13.925  INFO 5912 --- [    Test worker] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+ö2020-07-05 20:05:15.091  INFO 5912 --- [    Test worker] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 14 endpoint(s) beneath base path '/actuator'
+†2020-07-05 20:05:15.295  INFO 5912 --- [    Test worker] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8889 (http) with context path ''
+§2020-07-05 20:05:15.312  INFO 5912 --- [    Test worker] engine.WebQuizEngine                     : Started WebQuizEngine in 8.189 seconds (JVM running for 10.569)
+û2020-07-05 20:05:16.448  INFO 5912 --- [nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+ç2020-07-05 20:05:16.453  INFO 5912 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+Ü2020-07-05 20:05:16.476  INFO 5912 --- [nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 22 ms
 []
 [1;31m
 Start test 2[0m
@@ -73,3 +73,209 @@
 Start test 16[0m
 [1;31m
 Start test 17[0m
+[1;31m
+Start test 18[0m
+≤2020-07-05 20:05:17.498  WARN 5912 --- [nio-8889-exec-9] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 4, column: 4]]
+[1;31m
+Start test 19[0m
+≤2020-07-05 20:05:17.513  WARN 5912 --- [nio-8889-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 5, column: 4]]
+[1;31m
+Start test 20[0m
+≤2020-07-05 20:05:17.535  WARN 5912 --- [nio-8889-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 4, column: 4]]
+[1;31m
+Start test 21[0m
+≤2020-07-05 20:05:17.561  WARN 5912 --- [nio-8889-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 5, column: 4]]
+[1;31m
+Start test 22[0m
+[1;31m
+Start test 23[0m
+≤2020-07-05 20:05:17.590  WARN 5912 --- [nio-8889-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 5, column: 4]]
+[1;31m
+Start test 24[0m
+≤2020-07-05 20:05:17.633  WARN 5912 --- [io-8889-exec-10] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries; nested exception is com.fasterxml.jackson.core.JsonParseException: Unexpected character ('"' (code 34)): was expecting comma to separate Object entries
+9 at [Source: (PushbackInputStream); line: 5, column: 4]]
+[1;31m
+Start test 25[0m
+[1;31m
+Start test 26[0m
+[1;31m
+Start test 27[0m
+[1;31m
+Start test 28[0m
+[1;31m
+Start test 29[0m
+[1;31m
+Start test 30[0m
+[1;31m
+Start test 31[0m
+[1;31m
+Start test 32[0m
+[1;31m
+Start test 33[0m
+[1;31m
+Start test 34[0m
+[1;31m
+Start test 35[0m
+[1;31m
+Start test 36[0m
+[1;31m
+Start test 37[0m
+[1;31m
+Start test 38[0m
+[1;31m
+Start test 39[0m
+[1;31m
+Start test 40[0m
+[1;31m
+Start test 41[0m
+[1;31m
+Start test 42[0m
+[1;31m
+Start test 43[0m
+[1;31m
+Start test 44[0m
+[1;31m
+Start test 45[0m
+[1;31m
+Start test 46[0m
+[1;31m
+Start test 47[0m
+[1;31m
+Start test 48[0m
+[1;31m
+Start test 49[0m
+[1;31m
+Start test 50[0m
+[1;31m
+Start test 51[0m
+[1;31m
+Start test 52[0m
+[1;31m
+Start test 53[0m
+[1;31m
+Start test 54[0m
+[1;31m
+Start test 55[0m
+[1;31m
+Start test 56[0m
+[1;31m
+Start test 57[0m
+[1;31m
+Start test 58[0m
+[1;31m
+Start test 59[0m
+[1;31m
+Start test 60[0m
+[1;31m
+Start test 61[0m
+[1;31m
+Start test 62[0m
+[1;31m
+Start test 63[0m
+[1;31m
+Start test 64[0m
+[1;31m
+Start test 65[0m
+[1;31m
+Start test 66[0m
+[1;31m
+Start test 67[0m
+[1;31m
+Start test 68[0m
+[1;31m
+Start test 69[0m
+[1;31m
+Start test 70[0m
+[1;31m
+Start test 71[0m
+[1;31m
+Start test 72[0m
+[1;31m
+Start test 73[0m
+[1;31m
+Start test 74[0m
+[1;31m
+Start test 75[0m
+[1;31m
+Start test 76[0m
+[1;31m
+Start test 77[0m
+[1;31m
+Start test 78[0m
+[1;31m
+Start test 79[0m
+[1;31m
+Start test 80[0m
+[1;31m
+Start test 81[0m
+[1;31m
+Start test 82[0m
+[1;31m
+Start test 83[0m
+[1;31m
+Start test 84[0m
+[1;31m
+Start test 85[0m
+[1;31m
+Start test 86[0m
+[1;31m
+Start test 87[0m
+[1;31m
+Start test 88[0m
+[1;31m
+Start test 89[0m
+[1;31m
+Start test 90[0m
+[1;31m
+Start test 91[0m
+[1;31m
+Start test 92[0m
+[1;31m
+Start test 93[0m
+[1;31m
+Start test 94[0m
+[1;31m
+Start test 95[0m
+[1;31m
+Start test 96[0m
+[1;31m
+Start test 97[0m
+[1;31m
+Start test 98[0m
+[1;31m
+Start test 99[0m
+[1;31m
+Start test 100[0m
+[1;31m
+Start test 101[0m
+[1;31m
+Start test 102[0m
+[1;31m
+Start test 103[0m
+[1;31m
+Start test 104[0m
+[1;31m
+Start test 105[0m
+[1;31m
+Start test 106[0m
+[1;31m
+Start test 107[0m
+[1;31m
+Start test 108[0m
+[1;31m
+Start test 109[0m
+[1;31m
+Start test 110[0m
+[1;31m
+Start test 111[0m
+[1;31m
+Start test 112[0m
+[1;31m
+Start test 113[0m
+[1;31m
+Start test 114[0m
