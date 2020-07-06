@@ -11,6 +11,7 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
     private String title;
     private String text;
     @ElementCollection
@@ -55,7 +56,7 @@ public class Quiz {
         return options;
     }
 
-    public void setOptions(ArrayList<String> options) {
+    public void setOptions(List<String> options) {
         this.options = options;
     }
 

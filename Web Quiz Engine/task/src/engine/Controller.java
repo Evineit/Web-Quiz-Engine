@@ -2,6 +2,7 @@ package engine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,8 @@ public class Controller {
     private static final String SERVICE_WARNING_MESSAGE = "Berlin Schönefeld is closed for service today";
     private ArrayList<Quiz> quizzes = new ArrayList<>();
 
+    @Autowired
+    private QuizService quizService;
     public Controller() {
     }
 
