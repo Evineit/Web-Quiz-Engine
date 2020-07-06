@@ -6,23 +6,31 @@ import com.google.gson.JsonObject;
 import engine.WebQuizEngine;
 import org.hyperskill.hstest.dynamic.input.DynamicTesting;
 import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+import org.hyperskill.hstest.exception.outcomes.FatalError;
 import org.hyperskill.hstest.mocks.web.request.HttpRequest;
 import org.hyperskill.hstest.stage.SpringTest;
 import org.hyperskill.hstest.testcase.CheckResult;
 import org.hyperskill.hstest.testcase.TestCase;
-import org.junit.rules.TestRule;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static org.hyperskill.hstest.common.ReflectionUtils.getMainMethod;
 import static tests.TestHelper.*;
 import static tests.ApiTester.*;
 
 public class WebQuizEngineTest extends SpringTest {
-
     public WebQuizEngineTest() {
-        super(WebQuizEngine.class, 8889);
+        super(WebQuizEngine.class, 8889, "../quizdb.mv.db");
     }
 
     private static String quiz1 =
@@ -167,6 +175,14 @@ public class WebQuizEngineTest extends SpringTest {
         () -> checkQuizSuccess(quizIds[1], "[2]", false),
         () -> checkQuizSuccess(quizIds[1], "[3]", false),
 
+        () -> testAllQuizzes(2),
+        this::reloadServer,
+        () -> testAllQuizzes(2),
+        () -> checkQuizSuccess(quizIds[0], "[2]", true),
+        () -> checkQuizSuccess(quizIds[0], "[3]", false),
+        () -> checkQuizSuccess(quizIds[1], "[0]", false),
+        () -> checkQuizSuccess(quizIds[1], "[1]", true),
+
         () -> addIncorrectQuiz(error400noTitle),
         () -> addIncorrectQuiz(error400emptyTitle),
         () -> addIncorrectQuiz(error400noText),
@@ -269,6 +285,14 @@ public class WebQuizEngineTest extends SpringTest {
         () -> checkQuizSuccess(quizIds[6], "[0,1,3]", true),
         () -> checkQuizSuccess(quizIds[6], "[1,2,3]", false),
         () -> checkQuizSuccess(quizIds[6], "[0,1,2,3]", false),
+
+        () -> testAllQuizzes(7),
+        this::reloadServer,
+        () -> testAllQuizzes(7),
+        () -> checkQuizSuccess(quizIds[5], "[]", true),
+        () -> checkQuizSuccess(quizIds[5], "[0]", false),
+        () -> checkQuizSuccess(quizIds[6], "[0,1,2]", false),
+        () -> checkQuizSuccess(quizIds[6], "[0,1,3]", true),
     };
 
     private CheckResult testCreateQuiz(int quizNum) {
@@ -395,6 +419,15 @@ public class WebQuizEngineTest extends SpringTest {
         HttpRequest req = post(url, quiz);
         HttpResp resp = new HttpResp(req.send(), url, "POST");
         checkStatusCode(resp, 400);
+        return CheckResult.correct();
+    }
+
+    private CheckResult reloadServer() {
+        try {
+            reloadSpring();
+        } catch (Exception ex) {
+            throw new FatalError(ex.getMessage());
+        }
         return CheckResult.correct();
     }
 }

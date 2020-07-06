@@ -2,14 +2,20 @@ package engine;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@Entity
 public class Quiz {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private String title;
     private String text;
+    @ElementCollection
     private List<String> options = new ArrayList<>();
+    @ElementCollection
     private List<String> answer;
 
     public Quiz() {
