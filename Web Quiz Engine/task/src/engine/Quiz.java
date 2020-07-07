@@ -20,7 +20,7 @@ public class Quiz {
     private List<String> options = new ArrayList<>();
     @ElementCollection
     private List<String> answer;
-
+    private String author;
     public Quiz() {
     }
 
@@ -77,6 +77,14 @@ public class Quiz {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String solveQuiz(List<String> answer) {

@@ -1,7 +1,12 @@
 package engine;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,6 +28,12 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public Quiz saveQuiz(Quiz Quiz) {
+        String username = "";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            username = authentication.getName();
+        }
+        Quiz.setAuthor(username);
         return quizRepository.save(Quiz);
     }
 
@@ -38,6 +49,16 @@ public class QuizServiceImpl implements QuizService{
 
     @Override
     public void deleteQuizById(Long id) {
+        String username = "";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            username = authentication.getName();
+        }
+        Quiz quizFromDb = quizRepository.findById(id).get();
+        if (!quizFromDb.getAuthor().equals(username)){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
+        }
+
         quizRepository.deleteById(id);
     }
 

@@ -940,22 +940,9 @@ files:
   visible: true
   learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/508/implement
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #153
-
-    DELETE /api/quizzes/1 should respond with status code 204, responded: 405
-
-    Response body:
-
-    {&quot;timestamp&quot;:&quot;2020-07-07T23:06:43.547+0000&quot;,&quot;status&quot;:405,&quot;error&quot;:&quot;Method Not Allowed&quot;,&quot;message&quot;:&quot;Request method &#39;DELETE&#39; not supported&quot;,&quot;path&quot;:&quot;/api/quizzes/1&quot;}
-
-    Please find below the output of your program during this failed test.
-
-    ---
-
-    Hibernate: select user0_.id as id1_3_, user0_.email as email2_3_, user0_.password as password3_3_ from user user0_ where user0_.email=?
-    2020-07-07 18:06:43.538  WARN 8004 --- [nio-8889-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method &#39;DELETE&#39; not supported]
-  time: Tue, 07 Jul 2020 23:06:45 UTC
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/91/stages/508/implement">JetBrains
+    Academy</a>
+  time: Tue, 07 Jul 2020 23:49:07 UTC
 record: -1

@@ -15,6 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class QuizController {
@@ -110,6 +112,32 @@ public class QuizController {
                     .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
                     .body(quiz.solveQuiz(answer.getAnswer()));
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound()
+                    .build();
+        }
+    }
+    @Secured("ROLE_USER")
+    @DeleteMapping("/api/quizzes/{id}")
+    ResponseEntity<String> deleteQuiz(@PathVariable int id) {
+//        try {
+//            Quiz quiz = quizService.getQuizById((long) (id));
+//            assert quiz!=null;
+//            quizService.deleteQuizById((long) id);
+//            return ResponseEntity.noContent()
+//                    .build();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.notFound()
+//                    .build();
+//        }
+        try {
+            Quiz quiz = quizService.getQuizById((long) (id));
+            assert quiz!=null;
+            quizService.deleteQuizById((long) id);
+            return ResponseEntity.noContent()
+                    .build();
+        } catch (NullPointerException |NoSuchElementException e) {
             e.printStackTrace();
             return ResponseEntity.notFound()
                     .build();
