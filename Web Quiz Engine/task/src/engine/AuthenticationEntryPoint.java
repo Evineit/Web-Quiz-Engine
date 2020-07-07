@@ -22,6 +22,8 @@ public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
         writer.println("HTTP Status 401 - " + authEx.getMessage());
     }
 
+
+
     @Override
     public void afterPropertiesSet() {
         setRealmName("DeveloperStack");

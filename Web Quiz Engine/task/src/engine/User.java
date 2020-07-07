@@ -1,6 +1,7 @@
 package engine;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 
@@ -9,7 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User implements UserDetails{
@@ -17,8 +21,27 @@ public class User implements UserDetails{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @Email
-    private String username;
+    @Pattern(regexp=".+@.+\\..+", message="Please provide a valid email address")
+    private String email;
     private String password;
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Validated
+    public void setUsername(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -28,46 +51,39 @@ public class User implements UserDetails{
         this.id = id;
     }
 
-    @Validated
-    public void setUsername(String email) {
-        this.username = email;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + "USER"));
+        return authorities;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

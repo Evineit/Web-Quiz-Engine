@@ -7,20 +7,22 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-public class Controller {
+public class QuizController {
     private static final String SERVICE_WARNING_MESSAGE = "An error has occurred";
 
     @Autowired
     private QuizService quizService;
-    public Controller() {
+    public QuizController() {
     }
 
 //    @GetMapping("/api/quiz")
@@ -33,10 +35,11 @@ public class Controller {
 //                        "  \"options\": [\"Robot\",\"Tea leaf\",\"Cup of coffee\",\"Bug\"]\n" +
 //                        "}\n");
 //    }
-
+    @Secured("ROLE_USER")
+//    @PreAuthorize("hasRole('USER')")
     @GetMapping("/api/quizzes/{id}")
     public ResponseEntity<String> getQuizById(@PathVariable int id) {
-        Quiz quiz = null;
+        Quiz quiz;
         try {
             quiz = quizService.getQuizById((long) (id));
         } catch (Exception e) {
@@ -52,7 +55,7 @@ public class Controller {
                     .build();
         }
     }
-
+    @Secured("ROLE_USER")
     @GetMapping("/api/quizzes")
     public ResponseEntity<String> getQuizzes() {
         List<Quiz> quizList = quizService.getAllQuizzes();
@@ -78,6 +81,7 @@ public class Controller {
 //                .body(Quiz.saveAnswer(answer));
 //    }
 
+    @Secured("ROLE_USER")
     @PostMapping(value = "/api/quizzes", consumes = "application/json")
     ResponseEntity<String> newQuiz(@RequestBody Quiz quiz) {
         if (quiz.getTitle().isBlank()) {
@@ -97,6 +101,7 @@ public class Controller {
                 .body(addQuiz(quiz));
     }
 
+    @Secured("ROLE_USER")
     @PostMapping(value = "/api/quizzes/{id}/solve",consumes = "application/json")
     ResponseEntity<String> solveQuiz(@PathVariable int id, @RequestBody Quiz answer) {
         try {
