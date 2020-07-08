@@ -24,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-//        return new MyUserPrincipal(user);
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(),getAuthority());
     }
@@ -34,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + "USER"));
         return authorities;
-        //return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     @Override

@@ -13,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,8 +51,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-//                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
-//                .and()
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic();
 //        http

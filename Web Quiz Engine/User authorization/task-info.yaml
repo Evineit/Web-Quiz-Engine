@@ -903,9 +903,6 @@ files:
 - name: src/engine/QuizServiceImpl.java
   visible: true
   learner_created: true
-- name: src/engine/LoginController.java
-  visible: true
-  learner_created: true
 - name: src/engine/SpringSecurityConfig.java
   visible: true
   learner_created: true
@@ -927,13 +924,7 @@ files:
 - name: src/engine/UserDetailsService.java
   visible: true
   learner_created: true
-- name: src/engine/MyUserPrincipal.java
-  visible: true
-  learner_created: true
 - name: src/engine/UserService.java
-  visible: true
-  learner_created: true
-- name: src/engine/ROLES.java
   visible: true
   learner_created: true
 - name: src/engine/AuthenticationController.java
@@ -944,5 +935,5 @@ status: Solved
 feedback:
   message: Congratulations! Continue on <a href="https://hyperskill.org/projects/91/stages/508/implement">JetBrains
     Academy</a>
-  time: Tue, 07 Jul 2020 23:49:07 UTC
+  time: Wed, 08 Jul 2020 00:15:59 UTC
 record: -1
