@@ -56,7 +56,7 @@ public class TestHelper {
     static void checkStatusCode(HttpResp resp, int status) {
         if (resp.getStatusCode() != status) {
             throw new WrongAnswer(
-                resp.getRequest() +
+                    resp.getRequest() +
                     " should respond with status code " + status + ", " +
                     "responded: " + resp.getStatusCode() + "\n\n" +
                     "Response body:\n\n" + resp.getContent()

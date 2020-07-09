@@ -1053,6 +1053,59 @@ files:
         }
     }
   learner_created: false
+- name: src/engine/QuizService.java
+  visible: true
+  learner_created: true
+- name: src/engine/UserDetailsServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/engine/SpringSecurityConfig.java
+  visible: true
+  learner_created: true
+- name: src/engine/UserService.java
+  visible: true
+  learner_created: true
+- name: src/engine/AuthenticationEntryPoint.java
+  visible: true
+  learner_created: true
+- name: src/engine/UserDetailsService.java
+  visible: true
+  learner_created: true
+- name: src/engine/QuizServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/engine/controllers/UserController.java
+  visible: true
+  learner_created: true
+- name: src/engine/models/User.java
+  visible: true
+  learner_created: true
+- name: src/engine/models/Completion.java
+  visible: true
+  learner_created: true
+- name: src/engine/repositories/QuizRepository.java
+  visible: true
+  learner_created: true
+- name: src/engine/repositories/UserRepository.java
+  visible: true
+  learner_created: true
+- name: src/engine/repositories/CompletionRepository.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/509/implement
-status: Unchecked
+status: Failed
+feedback:
+  message: "Wrong answer in test #13\n\nGET /api/quizzes?page=0 should contain a JSON\
+    \ object.\nFound: \n\n[\n  {\n    &quot;id&quot;: 1,\n    &quot;title&quot;: &quot;The\
+    \ Java Logo&quot;,\n    &quot;text&quot;: &quot;What is depicted on the Java logo?&quot;,\n\
+    \    &quot;options&quot;: [\n      &quot;Robot&quot;,\n      &quot;Tea leaf&quot;,\n\
+    \      &quot;Cup of coffee&quot;,\n      &quot;Bug&quot;\n    ]\n  }\n]\n\nPlease\
+    \ find below the output of your program during this failed test.\n\n---\n\nHibernate:\
+    \ select user0_.id as id1_4_, user0_.email as email2_4_, user0_.password as password3_4_\
+    \ from user user0_ where user0_.email=?\nHibernate: select quiz0_.id as id1_1_,\
+    \ quiz0_.author as author2_1_, quiz0_.text as text3_1_, quiz0_.title as title4_1_\
+    \ from quiz quiz0_ order by quiz0_.id asc limit ?\nHibernate: select options0_.quiz_id\
+    \ as quiz_id1_3_0_, options0_.options as options2_3_0_ from quiz_options options0_\
+    \ where options0_.quiz_id=?"
+  time: Thu, 09 Jul 2020 18:31:32 UTC
 record: -1

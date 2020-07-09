@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import engine.WebQuizEngine;
 import org.hyperskill.hstest.dynamic.input.DynamicTesting;
 import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+import org.hyperskill.hstest.exception.outcomes.FatalError;
 import org.hyperskill.hstest.mocks.web.request.HttpRequest;
 import org.hyperskill.hstest.stage.SpringTest;
 import org.hyperskill.hstest.testcase.CheckResult;
@@ -20,58 +21,58 @@ public class WebQuizEngineTest extends SpringTest {
 
     private static String quiz1 =
         "{\n" +
-            "  \"title\": \"The Java Logo\", \n" +
-            "  \"text\": \"What is depicted on the Java logo?\",\n" +
-            "  \"options\": [\"Robot\",\"Tea leaf\",\"Cup of coffee\",\"Bug\"],\n" +
-            "  \"answer\": [2]\n" +
-            "}";
+        "  \"title\": \"The Java Logo\", \n" +
+        "  \"text\": \"What is depicted on the Java logo?\",\n" +
+        "  \"options\": [\"Robot\",\"Tea leaf\",\"Cup of coffee\",\"Bug\"],\n" +
+        "  \"answer\": [2]\n" +
+        "}";
 
     private static String quiz2 =
         "{\n" +
-            "  \"title\": \"The Ultimate Question\",\n" +
-            "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
-            "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"],\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"title\": \"The Ultimate Question\",\n" +
+        "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
+        "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"],\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String quiz3 =
         "{\n" +
-            "  \"title\": \"Math1\",\n" +
-            "  \"text\": \"Which of the following is equal to 4?\",\n" +
-            "  \"options\": [\"1+3\",\"2+2\",\"8-1\",\"1+5\"],\n" +
-            "  \"answer\": [0,1]\n" +
-            "}";
+        "  \"title\": \"Math1\",\n" +
+        "  \"text\": \"Which of the following is equal to 4?\",\n" +
+        "  \"options\": [\"1+3\",\"2+2\",\"8-1\",\"1+5\"],\n" +
+        "  \"answer\": [0,1]\n" +
+        "}";
 
     private static String quiz4 =
         "{\n" +
-            "  \"title\": \"Math2\",\n" +
-            "  \"text\": \"Which of the following is equal to 4?\",\n" +
-            "  \"options\": [\"1+1\",\"2+2\",\"8-1\",\"5-1\"],\n" +
-            "  \"answer\": [1,3]\n" +
-            "}";
+        "  \"title\": \"Math2\",\n" +
+        "  \"text\": \"Which of the following is equal to 4?\",\n" +
+        "  \"options\": [\"1+1\",\"2+2\",\"8-1\",\"5-1\"],\n" +
+        "  \"answer\": [1,3]\n" +
+        "}";
 
     private static String quiz5 =
         "{\n" +
-            "  \"title\": \"Math3\",\n" +
-            "  \"text\": \"Which of the following is equal to 4?\",\n" +
-            "  \"options\": [\"2*3\",\"5*8\",\"8*0\",\"1*5\"],\n" +
-            "  \"answer\": []\n" +
-            "}";
+        "  \"title\": \"Math3\",\n" +
+        "  \"text\": \"Which of the following is equal to 4?\",\n" +
+        "  \"options\": [\"2*3\",\"5*8\",\"8*0\",\"1*5\"],\n" +
+        "  \"answer\": []\n" +
+        "}";
 
     private static String quiz6 =
         "{\n" +
-            "  \"title\": \"Math4\",\n" +
-            "  \"text\": \"Which of the following is equal to 4?\",\n" +
-            "  \"options\": [\"2*3\",\"5*8\",\"8*0\",\"1*5\"]\n" +
-            "}";
+        "  \"title\": \"Math4\",\n" +
+        "  \"text\": \"Which of the following is equal to 4?\",\n" +
+        "  \"options\": [\"2*3\",\"5*8\",\"8*0\",\"1*5\"]\n" +
+        "}";
 
     private static String quiz7 =
         "{\n" +
-            "  \"title\": \"Math5\",\n" +
-            "  \"text\": \"Which of the following is equal to 4?\",\n" +
-            "  \"options\": [\"2^2\",\"2+2\",\"2-2\",\"2*2\"],\n" +
-            "  \"answer\": [0,1,3]\n" +
-            "}";
+        "  \"title\": \"Math5\",\n" +
+        "  \"text\": \"Which of the following is equal to 4?\",\n" +
+        "  \"options\": [\"2^2\",\"2+2\",\"2-2\",\"2*2\"],\n" +
+        "  \"answer\": [0,1,3]\n" +
+        "}";
 
     private static String[] quizzes = new String[] {
         quiz1, quiz2, quiz3, quiz4, quiz5, quiz6, quiz7
@@ -83,56 +84,56 @@ public class WebQuizEngineTest extends SpringTest {
 
     private static String error400noTitle =
         "{\n" +
-            "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
-            "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
+        "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String error400emptyTitle =
         "{\n" +
-            "  \"title\": \"\",\n" +
-            "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
-            "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"title\": \"\",\n" +
+        "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
+        "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String error400noText =
         "{\n" +
-            "  \"title\": \"123123123\",\n" +
-            "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"title\": \"123123123\",\n" +
+        "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String error400emptyText =
         "{\n" +
-            "  \"title\": \"The Ultimate Question\",\n" +
-            "  \"text\": \"\",\n" +
-            "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"title\": \"The Ultimate Question\",\n" +
+        "  \"text\": \"\",\n" +
+        "  \"options\": [\"Everything goes right\",\"42\",\"2+2=4\",\"11011100\"]\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String error400noOptions =
         "{\n" +
-            "  \"title\": \"The Ultimate Question\",\n" +
-            "  \"text\": \"123123123\",\n" +
-            "  \"answer\": [1]\n" +
-            "}";
+        "  \"title\": \"The Ultimate Question\",\n" +
+        "  \"text\": \"123123123\",\n" +
+        "  \"answer\": [1]\n" +
+        "}";
 
     private static String error400emptyOptions =
         "{\n" +
-            "  \"title\": \"The Ultimate Question\",\n" +
-            "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
-            "  \"options\": [ ]\n" +
-            "  \"answer\": [ ]\n" +
-            "}";
+        "  \"title\": \"The Ultimate Question\",\n" +
+        "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
+        "  \"options\": [ ]\n" +
+        "  \"answer\": [ ]\n" +
+        "}";
 
     private static String error400oneOption =
         "{\n" +
-            "  \"title\": \"The Ultimate Question\",\n" +
-            "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
-            "  \"options\": [\"Everything goes right\"]\n" +
-            "  \"answer\": [0]\n" +
-            "}";
+        "  \"title\": \"The Ultimate Question\",\n" +
+        "  \"text\": \"What is the answer to the Ultimate Question of Life, the Universe and Everything?\",\n" +
+        "  \"options\": [\"Everything goes right\"]\n" +
+        "  \"answer\": [0]\n" +
+        "}";
 
 
     private static String login1 = "test@google.com";
@@ -188,20 +189,20 @@ public class WebQuizEngineTest extends SpringTest {
 
 
         // Add 2 quizzes and check their existence
-        () -> testAllQuizzes(0, 1),
-        () -> testAllQuizzes(0, 2),
+        () -> testAllQuizzes(0, 0,1),
+        () -> testAllQuizzes(0, 0,2),
 
         () -> testCreateQuiz(0, 1),
         () -> testQuizExists(0, 2),
         () -> testQuizNotExists(0, 2, 125),
 
-        () -> testAllQuizzes(1, 1),
+        () -> testAllQuizzes(1, 0,1),
 
         () -> testCreateQuiz(1, 2),
         () -> testQuizExists(1, 2),
         () -> testQuizNotExists(1, 2, 125),
 
-        () -> testAllQuizzes(2, 2),
+        () -> testAllQuizzes(2, 0,2),
 
 
         // No auth operations tests
@@ -212,6 +213,7 @@ public class WebQuizEngineTest extends SpringTest {
         () -> testSolveQuizNoAuth(quizIds[1], "[1]"),
         () -> testDeleteQuizzesNoAuth(quizIds[0]),
         () -> testDeleteQuizzesNoAuth(quizIds[1]),
+        () -> testCompletedQuizzesNoAuth(),
 
 
         // Fake auth operations tests
@@ -222,6 +224,7 @@ public class WebQuizEngineTest extends SpringTest {
         () -> testSolveQuizFakeAuth(quizIds[1], "[1]"),
         () -> testDeleteQuizzesFakeAuth(quizIds[0]),
         () -> testDeleteQuizzesFakeAuth(quizIds[1]),
+        () -> testCompletedQuizzesFakeAuth(),
 
 
         // Solve two quizzes
@@ -230,22 +233,35 @@ public class WebQuizEngineTest extends SpringTest {
         () -> checkQuizSuccess(quizIds[0], "[2]", true, 1),
         () -> checkQuizSuccess(quizIds[0], "[3]", false, 2),
 
-        () -> checkQuizSuccess(quizIds[1], "[0]", false, 2),
-        () -> checkQuizSuccess(quizIds[1], "[1]", true, 1),
-        () -> checkQuizSuccess(quizIds[1], "[2]", false, 2),
-        () -> checkQuizSuccess(quizIds[1], "[3]", false, 1),
+        () -> checkQuizSuccess(quizIds[1], "[0]", false, 1),
+        () -> checkQuizSuccess(quizIds[1], "[1]", true, 2),
+        () -> checkQuizSuccess(quizIds[1], "[2]", false, 1),
+        () -> checkQuizSuccess(quizIds[1], "[3]", false, 2),
+
+
+        // Check completed
+        () -> testCompletedQuizzes(1, 1, 0 ,0, quizIds[0]),
+        () -> testCompletedQuizzes(1, 2, 0, 0, quizIds[1]),
 
 
         // Test database save
-        () -> testAllQuizzes(2, 1),
-        () -> testAllQuizzes(2, 2),
+        () -> testAllQuizzes(2, 0, 1),
+        () -> testAllQuizzes(2, 0,2),
         () -> reloadServer(),
-        () -> testAllQuizzes(2, 1),
-        () -> testAllQuizzes(2, 2),
-        () -> checkQuizSuccess(quizIds[0], "[2]", true, 1),
-        () -> checkQuizSuccess(quizIds[0], "[3]", false, 2),
-        () -> checkQuizSuccess(quizIds[1], "[0]", false, 1),
-        () -> checkQuizSuccess(quizIds[1], "[1]", true, 2),
+        () -> testAllQuizzes(2, 0,1),
+        () -> testAllQuizzes(2, 0,2),
+        () -> checkQuizSuccess(quizIds[0], "[2]", true, 2),
+        () -> checkQuizSuccess(quizIds[0], "[3]", false, 1),
+        () -> checkQuizSuccess(quizIds[1], "[0]", false, 2),
+        () -> checkQuizSuccess(quizIds[1], "[1]", true, 1),
+
+
+        // Check completed
+        () -> testCompletedQuizzes(2, 1, 0 ,1, quizIds[0]),
+        () -> testCompletedQuizzes(2, 1, 0 ,0, quizIds[1]),
+
+        () -> testCompletedQuizzes(2, 2, 0, 1, quizIds[1]),
+        () -> testCompletedQuizzes(2, 2, 0, 0, quizIds[0]),
 
 
         // Test wrongly created quizzes
@@ -354,13 +370,61 @@ public class WebQuizEngineTest extends SpringTest {
         () -> checkQuizSuccess(quizIds[6], "[1,2,3]", false, 2),
         () -> checkQuizSuccess(quizIds[6], "[0,1,2,3]", false, 2),
 
-        () -> testAllQuizzes(7, 2),
+        () -> testAllQuizzes(7, 0,2),
         () -> reloadServer(),
-        () -> testAllQuizzes(7, 2),
+        () -> testAllQuizzes(7, 0,2),
         () -> checkQuizSuccess(quizIds[5], "[]", true, 1),
         () -> checkQuizSuccess(quizIds[5], "[0]", false, 2),
         () -> checkQuizSuccess(quizIds[6], "[0,1,2]", false, 1),
         () -> checkQuizSuccess(quizIds[6], "[0,1,3]", true, 2),
+
+
+        // Check completed
+        () -> testCompletedQuizzes(5, 1, 0 ,4, quizIds[0]),
+        () -> testCompletedQuizzes(5, 1, 0 ,3, quizIds[1]),
+        () -> testCompletedQuizzes(5, 1, 0 ,2, quizIds[4]),
+        () -> testCompletedQuizzes(5, 1, 0 ,1, quizIds[5]),
+        () -> testCompletedQuizzes(5, 1, 0 ,0, quizIds[5]),
+
+        () -> testCompletedQuizzes(6, 2, 0, 5, quizIds[1]),
+        () -> testCompletedQuizzes(6, 2, 0, 4, quizIds[0]),
+        () -> testCompletedQuizzes(6, 2, 0, 3, quizIds[2]),
+        () -> testCompletedQuizzes(6, 2, 0, 2, quizIds[3]),
+        () -> testCompletedQuizzes(6, 2, 0, 1, quizIds[6]),
+        () -> testCompletedQuizzes(6, 2, 0, 0, quizIds[6]),
+
+
+        // Test pagination completed quizzes
+        () -> checkQuizSuccess(quizIds[4], "[]", true, 1),
+        () -> checkQuizSuccess(quizIds[4], "[]", true, 1),
+        () -> checkQuizSuccess(quizIds[4], "[]", true, 1),
+        () -> checkQuizSuccess(quizIds[4], "[]", true, 1),
+        () -> checkQuizSuccess(quizIds[4], "[]", true, 1),
+        () -> checkQuizSuccess(quizIds[6], "[0,1,3]", true, 1),
+
+        () -> checkQuizSuccess(quizIds[3], "[1,3]", true, 2),
+        () -> checkQuizSuccess(quizIds[3], "[1,3]", true, 2),
+        () -> checkQuizSuccess(quizIds[3], "[1,3]", true, 2),
+        () -> checkQuizSuccess(quizIds[3], "[1,3]", true, 2),
+        () -> checkQuizSuccess(quizIds[3], "[1,3]", true, 2),
+        () -> checkQuizSuccess(quizIds[5], "[]", true, 2),
+
+        () -> testCompletedQuizzes(10, 1, 0 ,0, quizIds[6]),
+        () -> testCompletedQuizzes(10, 1, 0 ,1, quizIds[4]),
+        () -> testCompletedQuizzes(10, 1, 0 ,2, quizIds[4]),
+        () -> testCompletedQuizzes(10, 1, 0 ,3, quizIds[4]),
+        () -> testCompletedQuizzes(10, 1, 0 ,4, quizIds[4]),
+        () -> testCompletedQuizzes(10, 1, 0 ,5, quizIds[4]),
+        () -> testCompletedQuizzes(1, 1, 1 ,0, quizIds[0]),
+
+        () -> testCompletedQuizzes(10, 2, 0 ,0, quizIds[5]),
+        () -> testCompletedQuizzes(10, 2, 0 ,1, quizIds[3]),
+        () -> testCompletedQuizzes(10, 2, 0 ,2, quizIds[3]),
+        () -> testCompletedQuizzes(10, 2, 0 ,3, quizIds[3]),
+        () -> testCompletedQuizzes(10, 2, 0 ,4, quizIds[3]),
+        () -> testCompletedQuizzes(10, 2, 0 ,5, quizIds[3]),
+        () -> testCompletedQuizzes(2, 2, 1 ,1, quizIds[1]),
+        () -> testCompletedQuizzes(2, 2, 1 ,0, quizIds[0]),
 
 
         // Test delete
@@ -381,13 +445,30 @@ public class WebQuizEngineTest extends SpringTest {
         () -> testQuizNotExists(1, 1, 0),
         () -> testQuizNotExists(1, 2, 0),
 
-        () -> testAllQuizzes(5, 1),
+        () -> testAllQuizzes(5, 0,1),
         () -> reloadServer(),
-        () -> testAllQuizzes(5, 2),
+        () -> testAllQuizzes(5, 0,2),
         () -> testQuizNotExists(0, 1, 0),
         () -> testQuizNotExists(0, 2, 0),
         () -> testQuizNotExists(1, 1, 0),
         () -> testQuizNotExists(1, 2, 0),
+
+
+        // Test pagination all quizzes
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 2),
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 2),
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 2),
+        () -> testCreateQuiz(6, 1),
+        () -> testCreateQuiz(6, 2),
+        () -> testAllQuizzes(10, 0,1),
+        () -> testAllQuizzes(10, 0,2),
+        () -> testAllQuizzes(5, 1,1),
+        () -> testAllQuizzes(5, 1,2),
     };
 
     private CheckResult testRegister(String login, String password, int status) {
@@ -421,7 +502,7 @@ public class WebQuizEngineTest extends SpringTest {
 
     private CheckResult testSolveQuizNoAuth(int quizNum, String answerSent) {
         String url = "/api/quizzes/" + quizNum + "/solve";
-        HttpRequest req = post(url, "{" + " \"answer\" : " + answerSent + "}");;
+        HttpRequest req = post(url, "{" + " \"answer\" : " + answerSent + "}");
         HttpResp resp = new HttpResp(req.send(), url, "POST");
         checkStatusCode(resp, 401);
         return CheckResult.correct();
@@ -461,6 +542,22 @@ public class WebQuizEngineTest extends SpringTest {
         String url = "/api/quizzes/" + quizNum;
         HttpRequest req = delete(url);
         HttpResp resp = new HttpResp(auth(req, 3).send(), url, "DELETE");
+        checkStatusCode(resp, 401);
+        return CheckResult.correct();
+    }
+
+    private CheckResult testCompletedQuizzesNoAuth() {
+        String url = "/api/quizzes/completed";
+        HttpRequest req = get(url).setGetParam("page", "0");
+        HttpResp resp = new HttpResp(req.send(), url + "?page=0", "GET");
+        checkStatusCode(resp, 401);
+        return CheckResult.correct();
+    }
+
+    private CheckResult testCompletedQuizzesFakeAuth() {
+        String url = "/api/quizzes/completed";
+        HttpRequest req = get(url).setGetParam("page", "0");
+        HttpResp resp = new HttpResp(auth(req, 3).send(), url + "?page=0", "GET");
         checkStatusCode(resp, 401);
         return CheckResult.correct();
     }
@@ -517,9 +614,9 @@ public class WebQuizEngineTest extends SpringTest {
         if (!rightQuiz.equals(obj)) {
             return CheckResult.wrong(
                 "The quiz sent to the program looked like this:\n" +
-                    getPrettyJson(rightQuiz) + "\n\n" +
-                    "But the received quiz looks like that:\n" +
-                    getPrettyJson(obj)
+                getPrettyJson(rightQuiz) + "\n\n" +
+                "But the received quiz looks like that:\n" +
+                getPrettyJson(obj)
             );
         }
 
@@ -539,20 +636,82 @@ public class WebQuizEngineTest extends SpringTest {
         return CheckResult.correct();
     }
 
-    private CheckResult testAllQuizzes(int count, int user) {
+    private CheckResult testAllQuizzes(int count, int page, int user) {
         String url = "/api/quizzes";
-        HttpResp resp = new HttpResp(auth(get(url), user).send(), url, "GET");
+        HttpRequest req = get(url).setGetParam("page", "" + page);
+        HttpResp resp = new HttpResp(auth(req, user).send(), url + "?page=" + page, "GET");
 
         checkStatusCode(resp, 200);
         JsonElement json = getJson(resp);
 
-        checkIsArray(resp, json);
-        checkArrayLength(resp, json, count);
+        checkIsObject(resp, json);
+        checkObjectKey(resp, json, "content");
 
-        JsonArray arr = json.getAsJsonArray();
+        JsonObject obj = json.getAsJsonObject();
+        JsonElement contentElem = obj.get("content");
+
+        checkIsArray(resp, contentElem);
+        checkArrayLength(resp, contentElem, count, "content");
+
+        JsonArray arr = contentElem.getAsJsonArray();
         int index = 0;
         for (JsonElement elem : arr) {
-            checkIsObject(resp, elem, "json[" + index + "]");
+            String path = "content[" + index + "]";
+            checkIsObject(resp, elem, path);
+            JsonObject currObj = elem.getAsJsonObject();
+
+            checkObjectKey(resp, currObj, "id", path);
+            checkIsInt(resp, currObj.get("id"), path + ".id");
+
+            checkObjectKey(resp, currObj, "title", path);
+            checkIsString(resp, currObj.get("title"), path + ".title");
+
+            checkObjectKey(resp, currObj, "text", path);
+            checkIsString(resp, currObj.get("text"), path + ".text");
+
+            checkObjectKey(resp, currObj, "options", path);
+            checkIsArray(resp, currObj.get("options"), path + ".options");
+
+            ++index;
+        }
+
+        return CheckResult.correct();
+    }
+
+    private CheckResult testCompletedQuizzes(int count, int user, int page, int indexForCheckingQuizId, int quizNum) {
+        String url = "/api/quizzes/completed";
+        HttpRequest req = get(url).setGetParam("page", "" + page);
+        HttpResp resp = new HttpResp(auth(req, user).send(), url + "?page=" + page, "GET");
+
+        checkStatusCode(resp, 200);
+        JsonElement json = getJson(resp);
+
+        checkIsObject(resp, json);
+        checkObjectKey(resp, json, "content");
+
+        JsonObject obj = json.getAsJsonObject();
+        JsonElement contentElem = obj.get("content");
+
+        checkIsArray(resp, contentElem);
+        checkArrayLength(resp, contentElem, count, "content");
+
+        JsonArray arr = contentElem.getAsJsonArray();
+        int index = 0;
+        for (JsonElement elem : arr) {
+            String path = "content[" + index + "]";
+            checkIsObject(resp, elem, path);
+            JsonObject currObj = elem.getAsJsonObject();
+
+            checkObjectKey(resp, currObj, "id", path);
+            checkIsInt(resp, currObj.get("id"), path + ".id");
+
+            checkObjectKey(resp, currObj, "completedAt", path);
+            checkIsString(resp, currObj.get("completedAt"), path + ".completedAt");
+
+            if (index == indexForCheckingQuizId) {
+                checkIntValue(resp, currObj.get("id"), quizNum, path + ".id");
+            }
+
             ++index;
         }
 
@@ -602,7 +761,7 @@ public class WebQuizEngineTest extends SpringTest {
         try {
             reloadSpring();
         } catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+            throw new FatalError(ex.getMessage(), ex);
         }
         return CheckResult.correct();
     }

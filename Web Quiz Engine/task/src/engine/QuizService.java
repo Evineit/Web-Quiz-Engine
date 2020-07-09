@@ -1,5 +1,9 @@
 package engine;
 
+import engine.models.Quiz;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface QuizService {
@@ -32,6 +36,7 @@ public interface QuizService {
      * @param id Id
      */
     void deleteQuizById(Long id);
+    public String solve(long quizId, List<String> answer, String username);
     /**
      * Search Quiz by Title containing.
      * @param searchString SearchString
@@ -44,4 +49,10 @@ public interface QuizService {
      * @return Search result
      */
     List<Quiz> getQuizByTitleLike(String searchString);
+
+    Page<Quiz> getCompletions(Pageable pageable);
+
+    List<Quiz> getAllQuizzes(Integer pageNo, Integer pageSize, String sortBy);
+
+    List<Quiz> getAllCompletions(Integer page, Integer pageSize, String sortBy);
 }

@@ -1,5 +1,7 @@
 package engine;
 
+import engine.models.User;
+
 import java.util.List;
 
 public interface UserService {
