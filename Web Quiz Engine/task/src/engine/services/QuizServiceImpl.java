@@ -6,21 +6,18 @@ import engine.models.CompletionDto;
 import engine.repositories.CompletionRepository;
 import engine.repositories.QuizRepository;
 import engine.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static engine.models.Completion.createCompletion;
 
@@ -38,32 +35,14 @@ public class QuizServiceImpl implements QuizService{
     }
 
     @Override
-    public List<Quiz> getAllQuizzes() {
-        final Iterable<Quiz> all = quizRepository.findAll();
-        List<Quiz> target = new ArrayList<>();
-        all.forEach(target::add);
-        return target;
-    }
-
-    @Override
     public Quiz getQuizById(Long id) {
         return quizRepository.findById(id).get();
     }
 
     @Override
-    public Quiz saveQuiz(Quiz Quiz) {
-        Quiz newQuiz = new Quiz();
-        newQuiz.setTitle(Quiz.getTitle());
-        newQuiz.setText(Quiz.getText());
-        newQuiz.setOptions(Quiz.getOptions());
-        newQuiz.setAnswer(Quiz.getAnswer());
-        String username = "";
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            username = authentication.getName();
-        }
-        newQuiz.setAuthor(username);
-        return quizRepository.save(newQuiz);
+    public Quiz saveQuiz(Quiz Quiz,String username) {
+        Quiz.setAuthor(username);
+        return quizRepository.save(Quiz);
     }
 
     @Override
@@ -77,19 +56,12 @@ public class QuizServiceImpl implements QuizService{
     }
 
     @Override
-    public void deleteQuizById(Long id) {
-        String username = "";
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            username = authentication.getName();
-        }
-
-        Quiz quizFromDb = quizRepository.findById(id).get();
-        if (!quizFromDb.getAuthor().equals(username)){
+    public void deleteQuizById(Long id, Quiz quiz, Principal principal) {
+        String username = principal.getName();
+        if (!quiz.getAuthor().equals(username)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
         }
-
-        quizRepository.delete(quizFromDb);
+        quizRepository.delete(quiz);
     }
 
     @Override
@@ -101,16 +73,7 @@ public class QuizServiceImpl implements QuizService{
     public String solve(long quizId, List<String> answer, String username) {
         var user = userRepository.findByEmail(username);
         var quiz = getQuizById(quizId);
-        if (quiz.getAnswer()==null && answer==null){
-            completionRepository.save(createCompletion(user, quiz));
-            return "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
-        }else if (quiz.getAnswer() == null && answer.isEmpty()) {
-            completionRepository.save(createCompletion(user, quiz));
-            return "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
-        }else if (answer == null && quiz.getAnswer().isEmpty()) {
-            completionRepository.save(createCompletion(user, quiz));
-            return "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
-        }else if (answer.equals(quiz.getAnswer())) {
+        if (Objects.equals(answer, quiz.getAnswer())) {
             completionRepository.save(createCompletion(user, quiz));
             return "{\"success\":true,\"feedback\":\"Congratulations, you're right!\"}";
         }else {
@@ -121,11 +84,6 @@ public class QuizServiceImpl implements QuizService{
     @Override
     public List<Quiz> getQuizByTitleLike(String searchString) {
         return quizRepository.findByTitleLike(searchString);
-    }
-
-    @Override
-    public Page<Completion> getCompletions(Pageable pageable) {
-        return quizRepository.findCompletions(pageable);
     }
 
     @Override

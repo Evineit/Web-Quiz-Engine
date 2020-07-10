@@ -71,7 +71,8 @@ public class QuizController {
 
     @Secured("ROLE_USER")
     @PostMapping(value = "/api/quizzes", consumes = "application/json")
-    ResponseEntity<String> newQuiz(@RequestBody Quiz quiz) {
+    ResponseEntity<String> newQuiz(@RequestBody Quiz quiz,
+                                   @Autowired Principal principal) {
         if (quiz.getTitle().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, SERVICE_WARNING_MESSAGE);
         }
@@ -86,7 +87,7 @@ public class QuizController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                .body(addQuiz(quiz));
+                .body(addQuiz(quiz,principal));
     }
 
     @Secured("ROLE_USER")
@@ -106,23 +107,21 @@ public class QuizController {
     }
     @Secured("ROLE_USER")
     @DeleteMapping("/api/quizzes/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    ResponseEntity<String> deleteQuiz(@PathVariable int id) {
+    ResponseEntity<String> deleteQuiz(@PathVariable long id,
+                                      @Autowired Principal principal) {
         try {
-            Quiz quiz = quizService.getQuizById((long) (id));
+            Quiz quiz = quizService.getQuizById(id);
             assert quiz!=null;
-            quizService.deleteQuizById((long) id);
-            return ResponseEntity.noContent()
-                    .build();
-        } catch (NullPointerException |NoSuchElementException e) {
+            quizService.deleteQuizById(id,quiz,principal);
+            return ResponseEntity.noContent().build();
+        }catch (NullPointerException |NoSuchElementException e) {
             e.printStackTrace();
-            return ResponseEntity.notFound()
-                    .build();
+            return ResponseEntity.notFound().build();
         }
     }
 
-    private String addQuiz(Quiz quiz) {
-        Quiz savedQuiz = quizService.saveQuiz(quiz);
+    private String addQuiz(Quiz quiz, Principal principal) {
+        Quiz savedQuiz = quizService.saveQuiz(quiz, principal.getName());
         return savedQuiz.toString();
     }
 }

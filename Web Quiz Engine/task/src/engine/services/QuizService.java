@@ -11,11 +11,6 @@ import java.util.List;
 
 public interface QuizService {
     /**
-     * Get All Quizzes.
-     * @return List of all planets.
-     */
-    List<Quiz> getAllQuizzes();
-    /**
      * Get Quiz By Id.
      * @param id Id
      * @return Quiz
@@ -26,7 +21,7 @@ public interface QuizService {
      * @param Quiz Quiz to save
      * @return Saved Quiz
      */
-    Quiz saveQuiz(Quiz Quiz);
+    Quiz saveQuiz(Quiz Quiz,String username);
     /**
      * Update Quiz.
      * @param id Id
@@ -37,9 +32,18 @@ public interface QuizService {
     /**
      * Delete Quiz by Id.
      * @param id Id
+     * @param quiz quiz
+     * @param principal principal
      */
-    void deleteQuizById(Long id);
-    public String solve(long quizId, List<String> answer, String username);
+    void deleteQuizById(Long id, Quiz quiz, Principal principal);
+
+    /**
+     * @param quizId id of the Quiz to be solved
+     * @param answer answers
+     * @param username username
+     * @return String of success or failure
+     */
+    String solve(long quizId, List<String> answer, String username);
     /**
      * Search Quiz by Title containing.
      * @param searchString SearchString
@@ -52,8 +56,6 @@ public interface QuizService {
      * @return Search result
      */
     List<Quiz> getQuizByTitleLike(String searchString);
-
-    Page<Completion> getCompletions(Pageable pageable);
 
     Page<Quiz> getAllQuizzes(Integer pageNo, Integer pageSize, String sortBy);
 

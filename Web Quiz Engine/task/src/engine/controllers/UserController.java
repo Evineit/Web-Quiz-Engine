@@ -25,6 +25,7 @@ public class UserController {
         return (User) userDetailsService.saveUser(user);
 
     }
+
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = SERVICE_WARNING_MESSAGE)
     public HashMap<String, String> handleIndexOutOfBoundsException(Exception e) {
