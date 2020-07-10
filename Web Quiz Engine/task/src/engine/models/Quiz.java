@@ -9,17 +9,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 @Entity
+@Table(name = "quiz")
 public class Quiz {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quiz_seq")
     private Long id;
 
     private String title;
+
     private String text;
+
     @ElementCollection
     private List<String> options = new ArrayList<>();
     @ElementCollection
     private List<String> answer;
+
     private String author;
     public Quiz() {
     }

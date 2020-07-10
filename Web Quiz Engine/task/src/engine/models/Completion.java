@@ -1,20 +1,27 @@
 package engine.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "completion", indexes = {
+        @Index(name = "IDX_COMPLETED_AT", columnList = "completedAt")
+})
 public class Completion {
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne()
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-//    @JoinColumn(name = "quiz_id", nullable = false)
+    @ManyToOne()
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 
     @Column(columnDefinition = "TIMESTAMP", nullable = false)

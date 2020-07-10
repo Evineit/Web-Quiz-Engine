@@ -1,9 +1,12 @@
 package engine;
 
+import engine.models.Completion;
 import engine.models.Quiz;
+import engine.models.CompletionDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface QuizService {
@@ -50,9 +53,9 @@ public interface QuizService {
      */
     List<Quiz> getQuizByTitleLike(String searchString);
 
-    Page<Quiz> getCompletions(Pageable pageable);
+    Page<Completion> getCompletions(Pageable pageable);
 
-    List<Quiz> getAllQuizzes(Integer pageNo, Integer pageSize, String sortBy);
+    Page<Quiz> getAllQuizzes(Integer pageNo, Integer pageSize, String sortBy);
 
-    List<Quiz> getAllCompletions(Integer page, Integer pageSize, String sortBy);
+    Page<CompletionDto> getAllCompletions(Integer page, Integer pageSize, String sortBy, Principal principal);
 }

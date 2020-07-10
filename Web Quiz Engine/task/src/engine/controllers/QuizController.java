@@ -1,10 +1,10 @@
 package engine.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import engine.models.Quiz;
 import engine.QuizService;
+import engine.models.CompletionDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -59,29 +60,12 @@ public class QuizController {
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/api/quizzes")
-//    public ResponseEntity<String> getQuizzes() {
-////        List<Quiz> quizList = quizService.getAllQuizzes();
-////        String[] responseBody = new String[quizList.size()];
-////        for (int i = 0; i < quizList.size(); i++) {
-////            responseBody[i]= quizList.get(i).toString();
-////        }
-////        System.out.println(Arrays.toString(responseBody));
-////        if (quizList.isEmpty()){
-////            return ResponseEntity.ok()
-////                    .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-////                    .body("[]");
-////        }
-////        return ResponseEntity.ok()
-////                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-////                .body(Arrays.toString(responseBody));
-//
-//    }
-//    public ResponseEntity<List<Quiz>> getAllQuizzes(
-//            @RequestParam(defaultValue = "0") Integer page,
-//            @RequestParam(defaultValue = "10") Integer pageSize,
-//            @RequestParam(defaultValue = "id") String sortBy)
-//    {
+    @GetMapping(value = "/api/quizzes",produces = APPLICATION_JSON_VALUE)
+    public Page<Quiz> getAllQuizzes(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
 //        List<Quiz> list = quizService.getAllQuizzes(page, pageSize, sortBy);
 //        String result = null;
 //        try {
@@ -91,43 +75,22 @@ public class QuizController {
 //        }
 //        final HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-////        if (list.isEmpty()){
-////            return new ResponseEntity<List<Quiz>>(, httpHeaders, HttpStatus.OK);
-////        }
-//        return new ResponseEntity<List<Quiz>>(list, httpHeaders, HttpStatus.OK);
-//    }
-    public ResponseEntity<String> getAllQuizzes(
-            @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy)
-    {
-        List<Quiz> list = quizService.getAllQuizzes(page, pageSize, sortBy);
-        String result = null;
-        try {
-            result = new ObjectMapper().writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (list.isEmpty()){
-            result="{\"content\":[]}";
-        }
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, String.valueOf(MediaType.APPLICATION_JSON))
-                .body(result);
+//        if (list.isEmpty()){
+//            result="{\"content\":[]}";
+//        }
+        return quizService.getAllQuizzes(page, pageSize, sortBy);
     }
 
     @Secured("ROLE_USER")
-    @GetMapping("/api/quizzes/completed")
-    public ResponseEntity<List<Quiz>> getAllCompletions(
+    @GetMapping(value = "/api/quizzes/completed",produces = APPLICATION_JSON_VALUE)
+    public Page<CompletionDto> getAllCompletions(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy)
+            @RequestParam(defaultValue = "id") String sortBy,
+            @Autowired Principal principal
+            )
     {
-        List<Quiz> list = quizService.getAllCompletions(page, pageSize, sortBy);
-
-        return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
+        return quizService.getAllCompletions(page, pageSize, sortBy,principal);
     }
 
 //    @PostMapping(value = "/api/quiz",consumes = "application/json")
@@ -159,7 +122,9 @@ public class QuizController {
 
     @Secured("ROLE_USER")
     @PostMapping(value = "/api/quizzes/{id}/solve",consumes = "application/json")
-    ResponseEntity<String> solveQuiz(@PathVariable int id, @RequestBody Quiz answer,@Autowired Principal principal) {
+    ResponseEntity<String> solveQuiz(@PathVariable int id,
+                                     @RequestBody Quiz answer,
+                                     @Autowired Principal principal) {
         try {
 //            Quiz quiz = quizService.getQuizById((long) (id));
             return ResponseEntity.ok()
@@ -173,6 +138,7 @@ public class QuizController {
     }
     @Secured("ROLE_USER")
     @DeleteMapping("/api/quizzes/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     ResponseEntity<String> deleteQuiz(@PathVariable int id) {
         try {
             Quiz quiz = quizService.getQuizById((long) (id));
