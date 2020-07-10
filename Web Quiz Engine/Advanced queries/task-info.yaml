@@ -1053,25 +1053,10 @@ files:
         }
     }
   learner_created: false
-- name: src/engine/QuizService.java
-  visible: true
-  learner_created: true
-- name: src/engine/UserDetailsServiceImpl.java
-  visible: true
-  learner_created: true
 - name: src/engine/SpringSecurityConfig.java
   visible: true
   learner_created: true
-- name: src/engine/UserService.java
-  visible: true
-  learner_created: true
 - name: src/engine/AuthenticationEntryPoint.java
-  visible: true
-  learner_created: true
-- name: src/engine/UserDetailsService.java
-  visible: true
-  learner_created: true
-- name: src/engine/QuizServiceImpl.java
   visible: true
   learner_created: true
 - name: src/engine/controllers/UserController.java
@@ -1095,10 +1080,25 @@ files:
 - name: src/engine/models/CompletionDto.java
   visible: true
   learner_created: true
+- name: src/engine/services/UserService.java
+  visible: true
+  learner_created: true
+- name: src/engine/services/UserDetailsService.java
+  visible: true
+  learner_created: true
+- name: src/engine/services/UserDetailsServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/engine/services/QuizServiceImpl.java
+  visible: true
+  learner_created: true
+- name: src/engine/services/QuizService.java
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/509/implement
 status: Solved
 feedback:
   message: Congratulations! Continue on <a href="https://hyperskill.org/projects/91/stages/509/implement">JetBrains
     Academy</a>
-  time: Fri, 10 Jul 2020 00:08:18 UTC
+  time: Fri, 10 Jul 2020 01:04:59 UTC
 record: -1

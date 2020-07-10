@@ -1,5 +1,6 @@
 package engine;
 
+import engine.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,16 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
+
+    @Autowired
+    UserDetailsService userDetailsService;
 
     @Override
     @Bean
@@ -36,31 +38,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Autowired
-    UserDetailsService userDetailsService;
-
-//    @Bean
-//    public JwtAuthenticationFilter authenticationTokenFilterBean() {
-//        return new JwtAuthenticationFilter();
-//    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/api/register").permitAll()
                 .antMatchers("/actuator/shutdown").permitAll()
-//                .anyRequest().hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().httpBasic();
-//        http
-//                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
-
-    @Autowired
-    private DataSource dataSource;
 
     @Autowired
     void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
